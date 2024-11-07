@@ -1,0 +1,21 @@
+metrics:
+  global:
+    scrape_interval: 3s
+    remote_write:
+      - url: <URL>
+        basic_auth:
+          username: <USERNAME>
+          password: <PASSWORD>
+
+  configs:
+    - name: node_exporter
+      scrape_configs:
+        - job_name: node
+          static_configs:
+            - targets: ['host.docker.internal:9100'] 
+          relabel_configs:
+            - source_labels: [__address__]
+              regex: (.*)
+              target_label: instance
+              replacement: mac
+  

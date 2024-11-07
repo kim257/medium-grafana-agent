@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  grafana_agent:
+    image: grafana/agent:v0.37.1
+    container_name: grafana_agent
+    ports:
+      - "12345:12345"
+    restart: unless-stopped
+    volumes:
+      - ./config/grafana-agent.yaml:/etc/grafana-agent.yaml
+    command:
+      - --config.file=/etc/grafana-agent.yaml
+      - --metrics.wal-directory=/etc/grafana-agent/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
